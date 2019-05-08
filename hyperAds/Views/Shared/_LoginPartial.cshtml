@@ -1,22 +1,50 @@
 ﻿@using Microsoft.AspNet.Identity
+@using hyperAds.Models
+@model LoginViewModel
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
-    @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: new { area = "" }, htmlAttributes: new { title = "Manage" })
-        </li>
-        <li><a href="javascript:sessionStorage.removeItem('accessToken');$('#logoutForm').submit();">Se déconnecter</a></li>
-    </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: new { area = "" }, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li><a href="javascript:sessionStorage.removeItem('accessToken');$('#logoutForm').submit();">Se déconnecter</a></li>
+        </ul>
     }
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("S'inscrire", "Register", "Account", routeValues: new { area = "" }, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Se connecter", "Login", "Account", routeValues: new { area = "" }, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+<ul class="nav navbar-nav navbar-right">
+    <li>
+        <div class="form-group">
+            <div class="col-md-offset-10 col-md-8">
+                @Html.TextBoxFor(m => m.Email, new { @class = "navbar-left h6 form-control" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "navbar-left h3 text-danger" })
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="form-group">
+            <div class="col-md-offset-5 col-md-8">
+                @Html.PasswordFor(m => m.Password, new { @class = " h6 form-control" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = " h3 text-danger" })
+            </div>
+        </div>
+    </li>
+    <li>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-3">
+                <input type="submit" value="GO" class="btn btn-default navbar-right h6" />
+            </div>
+
+            <div class="col-md-offset-4 col-md-3">
+                <a class="btn btn-default navbar-right h6" @Html.ActionLink("S'inscrire", "Register")> </a>
+            </div>
+        </div>
+    </li>
+
+</ul>
 }
